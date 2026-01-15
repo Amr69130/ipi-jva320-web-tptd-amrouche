@@ -19,13 +19,18 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li><a href="/salaries?page=0&size=10&sortProperty=nom&sortDirection=ASC" class="nav-link">
-                    Liste des salariés <span class="badge badge-primary">26</span></a></li>
+                    Liste des salariés <<span class="badge badge-primary" th:text="${nbSalaries}">26</span></a></li>
             </ul>
 
+            <!--presence d'un champ de recherche dans la navbar-->
             <form class="form-inline my-2 my-lg-0" role="search" action="/salaries" method="GET">
-                <input name="nom" class="form-control" placeholder="Rechercher un nom" type="text">
+                <div class="form-group form-inline">
+                    <input name="nom" class="form-control" placeholder="Rechercher un nom" type="text">
+                </div>
                 <button type="submit" class="btn btn-outline-success ml-2 my-2 my-sm-0">Rechercher</button>
             </form>
+            <!--presence d'un champ de recherche dans la navbar-->
+
         </div>
     </nav>
 </div>
