@@ -35,7 +35,9 @@
 
     <h2>Détail du salarié</h2>
 
-    <form id="saveForm" action="http://localhost:8080/salaries/aide/10" method="post" class="row">
+
+    <!-- Ici, je permets au formulaire, via la méthode POST, d’envoyer les données du salarié à l’URL contenant son identifiant -->
+    <form id="saveForm" th:action="@{/salaries/{id}(id=${salarie.id})}" method="post" class="row">
 
         <div class="col-lg-6">
             <div class="form-group">

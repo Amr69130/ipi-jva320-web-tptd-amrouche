@@ -56,4 +56,12 @@ public class SalarieController {
         return "list";
     }
 
+//  Methode qui gère la modification d'un salarié, on RETURN sur le '
+    @PostMapping("/salaries/{id}")
+    public String updateSalarie(@PathVariable(value = "id") Long id, final ModelMap model,
+                                SalarieAideADomicile updatedSalarie) throws EntityExistsException, SalarieException {
+        salarieAideADomicileService.updateSalarieAideADomicile(updatedSalarie);
+        model.put("salaries", salarieAideADomicileService.getSalaries());
+        return "list";
+    }
 }
