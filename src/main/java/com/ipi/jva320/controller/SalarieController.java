@@ -1,0 +1,59 @@
+package com.ipi.jva320.controller;
+
+import com.ipi.jva320.model.SalarieAideADomicile;
+import com.ipi.jva320.service.SalarieAideADomicileService;
+import com.ipi.jva320.exception.SalarieException;
+import jakarta.persistence.EntityExistsException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+
+@Controller
+public class SalarieController {
+
+    @Autowired
+    private SalarieAideADomicileService salarieAideADomicileService;
+
+    @GetMapping("/salaries/{id}")
+    public String getDetailSalarie(@PathVariable("id") Long id, ModelMap model) {
+        SalarieAideADomicile salarie = salarieAideADomicileService.getSalarie(id);
+        if (salarie == null) {
+            return "redirect:/salaries";
+        }
+        model.put("salarie", salarie);
+        return "detail_Salarie";
+    }
+
+    @GetMapping("/salaries/aide/new")
+    public String newSalarie(ModelMap model) {
+        model.put("salarie", new SalarieAideADomicile());
+        return "new_Salarie";
+    }
+
+    @PostMapping("/salaries/aide/save")
+    public String addSalarie(@ModelAttribute SalarieAideADomicile salarie)
+            throws SalarieException, EntityExistsException {
+
+        salarieAideADomicileService.creerSalarieAideADomicile(salarie);
+        return "redirect:/salaries/" + salarie.getId();
+    }
+
+    @GetMapping("/salaries")
+    public String listSalaries(ModelMap model) {
+        model.put("salaries", salarieAideADomicileService.getSalaries());
+        return "list";
+    }
+
+//    Methode qui gère la suppresion d'un salarié , on RETURN la list => ce qui permet de constater la suppression du salarié
+    @GetMapping("/salaries/{id}/delete")
+    public String deleteSalarie(@PathVariable(value = "id") Long id, final ModelMap model) throws EntityExistsException, SalarieException {
+        model.put("salaries", salarieAideADomicileService.getSalaries());
+        salarieAideADomicileService.deleteSalarieAideADomicile(id);
+        return "list";
+    }
+
+}
