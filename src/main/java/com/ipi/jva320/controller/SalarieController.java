@@ -56,12 +56,14 @@ public class SalarieController {
         return "list";
     }
 
-//  Methode qui gère la modification d'un salarié, on RETURN sur le '
+//  Methode qui gère la modification d'un salarié, on RETURN sur le detail de ce salarié pour constater les modif
+//  (pour tres bien s'en apercevoir il suffit de modifier un des champs via le formulaire et une fois appuyé sur enregistrer
+//  alors le champ n'est plus en surbrillance mais en affichage pris en compte => à ce moment là nous ne sommes donc plus dans la "page modif" mais la "page détails d'un salarié"
     @PostMapping("/salaries/{id}")
     public String updateSalarie(@PathVariable(value = "id") Long id, final ModelMap model,
                                 SalarieAideADomicile updatedSalarie) throws EntityExistsException, SalarieException {
         salarieAideADomicileService.updateSalarieAideADomicile(updatedSalarie);
         model.put("salaries", salarieAideADomicileService.getSalaries());
-        return "list";
+        return "redirect:/salaries/" + updatedSalarie.getId();
     }
 }
