@@ -48,13 +48,15 @@ public class SalarieController {
         return "list";
     }
 
-//    Methode qui gère la suppresion d'un salarié , on RETURN la list => ce qui permet de constater la suppression du salarié
-    @GetMapping("/salaries/{id}/delete")
-    public String deleteSalarie(@PathVariable(value = "id") Long id, final ModelMap model) throws EntityExistsException, SalarieException {
-        model.put("salaries", salarieAideADomicileService.getSalaries());
-        salarieAideADomicileService.deleteSalarieAideADomicile(id);
-        return "list";
-    }
+//    Methode qui gère la suppresion d'un salarié , on RETURN une redirection sur la list des salariés pour constater l'absence du salarié fraichement suprimé,
+//    on privilégie la redirection au simple "return list" pour eviter les problème de cache qui nous montrerai encore la présence du salarié fraichement supprimé
+@GetMapping("/salaries/{id}/delete")
+public String deleteSalarie(@PathVariable Long id)
+        throws EntityExistsException, SalarieException {
+
+    salarieAideADomicileService.deleteSalarieAideADomicile(id);
+    return "redirect:/salaries";
+}
 
 //  Methode qui gère la modification d'un salarié, on RETURN sur le detail de ce salarié pour constater les modif
 //  (pour tres bien s'en apercevoir il suffit de modifier un des champs via le formulaire et une fois appuyé sur enregistrer
