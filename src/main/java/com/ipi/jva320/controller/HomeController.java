@@ -12,10 +12,19 @@ public class HomeController {
     @Autowired
     private SalarieAideADomicileService salarieAideADomicileService;
 
-    @GetMapping("/")
-    public String homepage(ModelMap model) {
 
-       model.put("nbSalaries", salarieAideADomicileService.countSalaries());
+//ANCIENNE VERSION SANS LE GLOBALCONTROLLER
+//    @GetMapping("/")
+//    public String homepage(ModelMap model) {
+//
+//       model.put("nbSalaries", salarieAideADomicileService.countSalaries());
+//        return "home";
+//    }
+
+
+//    NOUVELLE VERSION AVEC GLOBALCONTROLLER
+    @GetMapping("/")
+    public String homepage() {
         return "home";
     }
 }
