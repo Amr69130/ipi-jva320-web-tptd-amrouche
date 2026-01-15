@@ -47,25 +47,25 @@ public class SalarieController {
     public String searchSalarie(@RequestParam(value = "nom", required = false) String nom,
                                 final ModelMap model) {
 
-        // Si le paramètre "nom" est présent dans l'URL
+        // condition : le paramètre "nom" est présent dans l'URL
         if (nom != null && !nom.isEmpty()) {
 
-            // 1. On appelle le service pour chercher
+            // appelle du service
             List<SalarieAideADomicile> salaries = salarieAideADomicileService.getSalaries(nom);
 
-            // 2. Gestion de l'erreur 404 si la liste est vide
+            // Comme convenu dans l'enoncé BONUS si le salarié n'existe pas => erreur 404 !
             if (salaries.isEmpty()) {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Aucun salarié trouvé avec le nom : " + nom);
             }
 
-            // 3. Si on a trouvé, on prend le premier résultat (car la vue détail attend un seul objet 'salarie')
+            // La view n'attend qu'un objet unique donc si trouvé, on prend le premier résultat
             model.put("salarie", salaries.get(0));
 
-            // 4. On renvoie directement vers la vue de DÉTAIL
+            // Return au détails
             return "detail_Salarie";
         }
 
-        // Si aucun nom n'est fourni, on affiche la liste complète (comportement par défaut)
+        // Si aucun nom n'est fourni return la liste
         model.put("salaries", salarieAideADomicileService.getSalaries());
         return "list";
     }
